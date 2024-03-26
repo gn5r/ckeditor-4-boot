@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ja">
+  <head th:fragment="head">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- jquery -->
+    <script th:src="@{/webjars/jquery/jquery.min.js}"></script>
+    <!-- bootstrap -->
+    <script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
+    <link
+      rel="stylesheet"
+      th:href="@{/webjars/bootstrap/css/bootstrap.min.css}" />
+
+    <!-- CKEditor4 -->
+    <script src="//cdn.ckeditor.com/4.22.1/standard/ckeditor.js"></script>
+
+    <!-- inline style -->
+    <style>
+      html,
+      body {
+        height: 100%;
+        width: 100%;
+      }
+    </style>
+  </head>
+
+  <th:block th:fragment="header">
+    <header class="navbar sticky-top bg-dark" data-bs-theme="dark">
+      <div class="container-fluid">
+        <a class="navbar-brand" th:href="@{/}">CKEditor4</a>
+      </div>
+    </header>
+  </th:block>
+</html>

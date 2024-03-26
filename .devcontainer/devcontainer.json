@@ -1,0 +1,64 @@
+{
+  "name": "ckeditor-4",
+  "dockerComposeFile": "docker-compose.yml",
+  "service": "app",
+  "workspaceFolder": "/workspace",
+  "features": {
+    "ghcr.io/devcontainers/features/java": {
+      "installMaven": true
+    }
+  },
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "formulahendry.auto-complete-tag",
+        "esbenp.prettier-vscode",
+        "vscjava.vscode-java-pack",
+        "vmware.vscode-boot-dev-pack",
+        "redhat.vscode-xml",
+        "redhat.vscode-yaml"
+      ],
+      "settings": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode",
+        "editor.formatOnSave": true,
+        "editor.insertSpaces": true,
+        "editor.tabSize": 2,
+        "files.eol": "\n",
+        "files.exclude": {
+          "**/.classpath": false,
+          "**/.project": false,
+          "**/.settings": false,
+          "**/.factorypath": false,
+          "**/.git": false
+        },
+        "java.completion.favoriteStaticMembers": [
+          "org.junit.Assert.*",
+          "org.junit.Assume.*",
+          "org.junit.jupiter.api.Assertions.*",
+          "org.junit.jupiter.api.Assumptions.*",
+          "org.junit.jupiter.api.DynamicContainer.*",
+          "org.junit.jupiter.api.DynamicTest.*",
+          "org.mockito.Mockito.*",
+          "org.mockito.ArgumentMatchers.*",
+          "org.mockito.Answers.*",
+          "org.assertj.core.api.Assertions.*"
+        ],
+        "java.configuration.updateBuildConfiguration": "automatic",
+        "java.maven.downloadSources": true,
+        "java.maven.updateSnapshots": true,
+        "[html]": {
+          "editor.defaultFormatter": "esbenp.prettier-vscode"
+        },
+        "[java]": {
+          "editor.defaultFormatter": "redhat.java"
+        },
+        "[xml]": {
+          "editor.defaultFormatter": "redhat.vscode-xml"
+        },
+        "[yaml]": {
+          "editor.defaultFormatter": "redhat.vscode-yaml"
+        }
+      }
+    }
+  }
+}

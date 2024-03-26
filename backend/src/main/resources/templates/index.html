@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ja">
+  <head>
+    <th:block th:replace="~{common :: head}"></th:block>
+    <title>CKEditor4</title>
+  </head>
+  <body>
+    <th:block th:replace="~{common :: header}"></th:block>
+    <main class="container p-3">
+      <div class="row justify-content-center g-3">
+        <div class="col">
+          <div class="card">
+            <div class="card-body">
+              <form
+                th:action="@{/}"
+                method="post"
+                class="row"
+                th:object="${form}"
+              >
+                <div class="col-12">
+                  <table class="table table-borderless">
+                    <tr>
+                      <td>
+                        <span>件名</span>
+                      </td>
+                      <td>
+                        <input class="form-control" th:field="*{subject}" />
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <span>本文</span>
+                      </td>
+                      <td>
+                        <textarea th:field="*{body}"></textarea>
+                        <script>
+                          CKEDITOR.replace("body", {
+                            removeDialogTabs: "image:Link;image:advanced",
+                            filebrowserImageUploadUrl: "upload",
+                            filebrowserImageBrowseUrl: "browse",
+                            filebrowserWindowHeight: 580,
+                            filebrowserWindowWidth: "50%",
+                          });
+                        </script>
+                      </td>
+                    </tr>
+                  </table>
+                </div>
+                <div class="col">
+                  <button type="submit" class="btn btn-primary">保存</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </body>
+</html>

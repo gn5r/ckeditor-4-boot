@@ -1,0 +1,28 @@
+name: ckeditor-4
+services:
+  # mysql:
+  #   image: mysql
+  #   container_name: mysql
+  #   mem_limit: 512m
+  #   command: mysqld --default-character-set=utf8mb4 --collation-server=utf8mb4_unicode_ci
+  #   environment:
+  #     - TZ=Asia/Tokyo
+  #     - MYSQL_ALLOW_EMPTY_PASSWORD="yes"
+  #     - MYSQL_DATABASE=dev
+  #   volumes:
+  #     - data:/var/lib/mysql
+  #   ports:
+  #     - 33306:3306
+  app:
+    image: mcr.microsoft.com/vscode/devcontainers/java:8
+    container_name: app
+    tty: true
+    environment:
+      - TZ=Asia/Tokyo
+    volumes:
+      - ../:/workspace
+    ports:
+      - 8080:8080
+
+volumes:
+  data:

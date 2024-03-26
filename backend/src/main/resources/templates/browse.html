@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ja">
+  <head>
+    <th:block th:replace="~{common :: head}"></th:block>
+    <title>画像参照</title>
+  </head>
+  <body>
+    <main class="container p-3">
+      <div class="row">
+        <div class="col-auto">
+          <select class="form-select" id="ymd">
+            <option
+              th:each="s : ${selects}"
+              th:value="${s.value}"
+              th:text="${s.text}"
+              th:selected="${s.value == now}"
+            ></option>
+          </select>
+        </div>
+      </div>
+
+      <div
+        class="alert alert-danger mt-3"
+        th:if="${#lists.isEmpty(images)}"
+        role="alert"
+      >
+        画像がありません
+      </div>
+
+      <div class="row my-3" th:unless="${#lists.isEmpty(images)}">
+        <div class="col-auto">
+          <button type="button" class="btn btn-danger disabled" id="del">
+            削除
+          </button>
+        </div>
+        <div class="col-auto">
+          <button type="button" class="btn btn-primary" id="bulk">
+            一括選択
+          </button>
+        </div>
+      </div>
+
+      <div class="row g-3" th:unless="${#lists.isEmpty(images)}">
+        <div class="col-auto" th:each="i : ${images}">
+          <div class="card">
+            <img
+              class="card-img-top"
+              th:src="${i.url}"
+              th:alt="${i.filename}"
+              width="128"
+              height="128"
+            />
+            <div class="card-body p-2">
+              <span class="card-text" th:text="${i.filename}"></span>
+              <div class="form-check">
+                <input
+                  class="form-check-input"
+                  type="checkbox"
+                  th:id="${i.filename}"
+                  th:data-target-filepath="${i.filepath}"
+                />
+                <label class="form-check-label" th:for="${i.filename}">
+                  削除対象
+                </label>
+              </div>
+              <button type="button" class="btn btn-primary btn-sm">選択</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <script>
+      const checkboxSelector = ".card-body input[type='checkbox']";
+
+      function handleCheckbox() {
+        $(checkboxSelector).each(function () {
+          console.debug("checkbox:", this);
+          $(this).change(function () {
+            const val = $(this).prop("checked");
+            console.debug("checked:", val);
+            const checked = $(`${checkboxSelector}:checked`).length;
+            console.debug("checked:", checked);
+
+            if (checked > 0) {
+              $("#del").removeClass("disabled");
+            } else {
+              $("#del").addClass("disabled");
+            }
+          });
+        });
+      }
+
+      $(() => {
+        handleCheckbox();
+        $("#del").click(() => {
+          if (confirm("チェックした画像を削除しますか？")) {
+            const targets = [];
+            $(`${checkboxSelector}:checked`).map((_, e) =>
+              targets.push($(e).data("target-filepath"))
+            );
+            console.debug("targets:", targets);
+            $.ajax({
+              url: "/delete",
+              method: "post",
+              contentType: "application/json",
+              data: JSON.stringify(targets),
+            })
+              .done(() => {
+                alert("削除しました");
+                location.reload();
+              })
+              .fail((data) => {
+                console.error("error:", data);
+                alert("削除に失敗しました\n" + data.message);
+              });
+          }
+        });
+
+        $("#ymd").change(function () {
+          const data = $(this).find("option:selected").val();
+          console.debug("selected:", data);
+          const params = new URLSearchParams(window.location.search);
+          params.set("ymd", data);
+          window.location.search = params.toString();
+        });
+
+        $("#bulk").click(() => {
+          const size = $(checkboxSelector).length;
+          const checked = $(`${checkboxSelector}:checked`).length;
+          console.debug("checked length:", checked);
+
+          let check = false;
+          if (0 <= checked && checked < size) check = true;
+          $(checkboxSelector)
+            .each((_, e) => $(e).prop("checked", check))
+            .change();
+        });
+      });
+    </script>
+  </body>
+</html>
